@@ -3,24 +3,22 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/FoxMateo/Caso-practico-1'
+                git 'https://github.com/FoxMateo/Caso-practico-1'
             }
         }
-        stage('Instalamos dependencias') {
+        stage('Install Dependencies') {
             steps {
-                bat 'echo Installing dependencies'
+                script {
+                    sh 'pip install -r requirements.txt'
+                }
             }
         }
-        stage('Ejecutamos test') {
+        stage('Run Tests') {
             steps {
-                bat 'echo Running tests'
-                // Asegúrate de ejecutar las pruebas aquí.
+                script {
+                    sh 'pytest --maxfail=5 --disable-warnings -q'
+                }
             }
-        }
-    }
-    post {
-        always {
-            junit '**/path-to-test-reports/*.xml' // Ajusta esta ruta
         }
     }
 }
