@@ -13,13 +13,22 @@ pipeline {
                 script {
                     parallel(
                         "Job 1": {
-                            sh "sleep 30"  // Simula tareas paralelas que sobrecargan el sistema
+                            sh "sleep 60"
                         },
                         "Job 2": {
-                            sh "sleep 30"
+                            sh "sleep 60"
                         },
                         "Job 3": {
-                            sh "sleep 30"
+                            sh "sleep 60"
+                        },
+                        "Job 4": {
+                            sh "sleep 60"
+                        },
+                        "Job 5": {
+                            sh "sleep 60"
+                        },
+                        "Job 6": {
+                            sh "sleep 60"
                         }
                     )
                 }
