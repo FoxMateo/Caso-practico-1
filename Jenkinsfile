@@ -27,19 +27,11 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                echo 'Ejecutando pruebas unitarias...'
+                echo 'Ejecutando pruebas unitarias e integración...'
                 sh '''
                 . venv/bin/activate
-                export PYTHONPATH=$PYTHONPATH:$WORKSPACE/app
-                pytest > test-results.log || true
+                pytest || true  # Ejecutar pytest y mostrar resultados en consola
                 '''
-            }
-        }
-
-        stage('Results') {
-            steps {
-                echo 'Archivando resultados de pruebas...'
-                archiveArtifacts artifacts: 'test-results.log', fingerprint: true
             }
         }
     }
