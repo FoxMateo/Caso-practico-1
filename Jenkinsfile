@@ -4,8 +4,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo 'Descargando el código'
-                git branch: 'master', 
+                echo 'Descargando el código fuente...'
+                git branch: 'master',
                     credentialsId: 'github-credentials',
                     url: 'https://github.com/FoxMateo/Caso-practico-1'
             }
@@ -13,25 +13,21 @@ pipeline {
 
         stage('Setup Python') {
             steps {
-                echo 'Instalando dependencias del sistema...'
+                echo 'Instalando dependencias...'
                 sh '''
                 apt-get update
                 apt-get install -y python3.10-venv
-                '''
-
-                echo 'Creando entorno virtual e instalando dependencias...'
-                sh '''
                 python3 -m venv venv
                 . venv/bin/activate
                 pip install --upgrade pip
-                pip install pytest flask
+                pip install pytest
                 '''
             }
         }
 
         stage('Run Tests') {
             steps {
-                echo 'Ejecutando pruebas unitarias e integración...'
+                echo 'Ejecutando pruebas unitarias para nuevos servicios...'
                 sh '''
                 . venv/bin/activate
                 pytest > test-results.log || true
@@ -49,7 +45,7 @@ pipeline {
 
     post {
         always {
-            echo 'Pipeline completado.'
+            echo 'Pipeline completado con éxito.'
         }
     }
 }
