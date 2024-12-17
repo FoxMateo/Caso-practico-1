@@ -1,19 +1,29 @@
 pipeline {
-    agent {
-        label 'master'
-    }
+    agent any
 
     stages {
-        stage('Test Without Load') {
+        stage('Test Load') {
             steps {
-                echo 'Ejecutando pruebas sin sobrecarga...'
-                sh "sleep 10"
+                echo 'Ejecutando pruebas bajo sobrecarga...'
+            }
+        }
+
+        stage('Parallel Test Load') {
+            steps {
+                script {
+                    parallel(
+                        "Job 1": {
+                            sh "sleep 30"  // Simula tareas paralelas que sobrecargan el sistema
+                        },
+                    )
+                }
             }
         }
     }
+
     post {
         always {
-            echo 'Pipeline completado sin sobrecarga.'
+            echo 'Pipeline completado con sobrecarga.'
         }
     }
 }
