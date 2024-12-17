@@ -15,8 +15,8 @@ pipeline {
             steps {
                 echo 'Instalando dependencias del sistema...'
                 sh '''
-                sudo apt-get update
-                sudo apt-get install -y python3.10-venv
+                apt-get update
+                apt-get install -y python3.10-venv
                 '''
 
                 echo 'Creando entorno virtual e instalando dependencias...'
