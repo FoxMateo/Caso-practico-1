@@ -11,9 +11,15 @@ pipeline {
             }
         }
 
-        stage('Python') {
+        stage('Setup Python') {
             steps {
-                echo 'Instalando dependencias'
+                echo 'Instalando dependencias del sistema...'
+                sh '''
+                sudo apt-get update
+                sudo apt-get install -y python3.10-venv
+                '''
+
+                echo 'Creando entorno virtual e instalando dependencias...'
                 sh '''
                 python3 -m venv venv
                 source venv/bin/activate
@@ -25,7 +31,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                echo 'Ejecutando pruebas unitarias'
+                echo 'Ejecutando pruebas unitarias e integración...'
                 sh '''
                 source venv/bin/activate
                 pytest > test-results.log || true
@@ -35,7 +41,7 @@ pipeline {
 
         stage('Results') {
             steps {
-                echo 'Archivando resultados de pruebas'
+                echo 'Archivando resultados de pruebas...'
                 archiveArtifacts artifacts: 'test-results.log', fingerprint: true
             }
         }
