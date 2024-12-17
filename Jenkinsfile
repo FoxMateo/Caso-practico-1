@@ -7,7 +7,7 @@ pipeline {
                 echo 'Descargando el código'
                 git branch: 'master', 
                     credentialsId: 'github-credentials',
-                    url: 'https://github.com/tu-usuario/nombre-repositorio.git'
+                    url: 'https://github.com/FoxMateo/Caso-practico-1'
             }
         }
 
