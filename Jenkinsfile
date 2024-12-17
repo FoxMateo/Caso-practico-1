@@ -30,7 +30,7 @@ pipeline {
                 echo 'Ejecutando pruebas unitarias...'
                 sh '''
                 . venv/bin/activate
-                export PYTHONPATH=$PYTHONPATH:$WORKSPACE
+                export PYTHONPATH=$PYTHONPATH:$WORKSPACE/app
                 pytest > test-results.log || true
                 '''
             }
