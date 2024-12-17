@@ -27,9 +27,10 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                echo 'Ejecutando pruebas unitarias para nuevos servicios...'
+                echo 'Ejecutando pruebas unitarias...'
                 sh '''
                 . venv/bin/activate
+                export PYTHONPATH=$PYTHONPATH:$WORKSPACE
                 pytest > test-results.log || true
                 '''
             }
@@ -45,7 +46,7 @@ pipeline {
 
     post {
         always {
-            echo 'Pipeline completado con éxito.'
+            echo 'Pipeline completado.'
         }
     }
 }
