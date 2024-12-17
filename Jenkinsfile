@@ -1,13 +1,15 @@
 pipeline {
-    agent any
+    agent any {
 
-    stages {
-        stage('Check') {
+        stage('Checkout') {
             steps {
                 echo 'Descargando el código'
-                git branch: 'master', url: 'https://github.com/tu-usuario/nombre-repositorio.git'
+                git branch: 'master', 
+                    credentialsId: 'github-credentials',
+                    url: 'https://github.com/tu-usuario/nombre-repositorio.git'
             }
         }
+
 
         stage('Python') {
             steps {
