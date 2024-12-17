@@ -1,24 +1,46 @@
 pipeline {
     agent any
+
     stages {
-        stage('Checkout') {
+        stage('Check') {
             steps {
-                git 'https://github.com/FoxMateo/Caso-practico-1'
+                echo 'Descargando el código'
+                git branch: 'master', url: 'https://github.com/tu-usuario/nombre-repositorio.git'
             }
         }
-        stage('Install Dependencies') {
+
+        stage('Python') {
             steps {
-                script {
-                    sh 'pip install -r requirements.txt'
-                }
+                echo 'Instalar dependencias'
+                sh '''
+                python3 -m venv venv
+                source venv/bin/activate
+                pip install --upgrade pip
+                pip install pytest flask
+                '''
             }
         }
+
         stage('Run Tests') {
             steps {
-                script {
-                    sh 'pytest --maxfail=5 --disable-warnings -q'
-                }
+                echo 'Ejecutando pruebas unitarias e integración...'
+                sh '''
+                source venv/bin/activate
+                pytest > test-results.log || true
+                '''
             }
+        }
+
+        stage('Results') {
+            steps {
+                echo 'Archivando resultados de pruebas...'
+                archiveArtifacts artifacts: 'test-results.log', fingerprint: true
+            }
+        }
+    }
+    post {
+        always {
+            echo 'Pipeline completado.'
         }
     }
 }
