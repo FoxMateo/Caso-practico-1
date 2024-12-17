@@ -1,6 +1,7 @@
 pipeline {
-    agent any {
+    agent any
 
+    stages {
         stage('Checkout') {
             steps {
                 echo 'Descargando el código'
@@ -10,10 +11,9 @@ pipeline {
             }
         }
 
-
         stage('Python') {
             steps {
-                echo 'Instalar dependencias'
+                echo 'Instalando dependencias'
                 sh '''
                 python3 -m venv venv
                 source venv/bin/activate
@@ -25,7 +25,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                echo 'Ejecutando pruebas unitarias e integración...'
+                echo 'Ejecutando pruebas unitarias'
                 sh '''
                 source venv/bin/activate
                 pytest > test-results.log || true
@@ -35,11 +35,12 @@ pipeline {
 
         stage('Results') {
             steps {
-                echo 'Archivando resultados de pruebas...'
+                echo 'Archivando resultados de pruebas'
                 archiveArtifacts artifacts: 'test-results.log', fingerprint: true
             }
         }
     }
+
     post {
         always {
             echo 'Pipeline completado.'
