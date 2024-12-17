@@ -22,7 +22,7 @@ pipeline {
                 echo 'Creando entorno virtual e instalando dependencias...'
                 sh '''
                 python3 -m venv venv
-                source venv/bin/activate
+                . venv/bin/activate
                 pip install --upgrade pip
                 pip install pytest flask
                 '''
@@ -33,7 +33,7 @@ pipeline {
             steps {
                 echo 'Ejecutando pruebas unitarias e integración...'
                 sh '''
-                source venv/bin/activate
+                . venv/bin/activate
                 pytest > test-results.log || true
                 '''
             }
