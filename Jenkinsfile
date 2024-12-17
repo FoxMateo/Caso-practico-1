@@ -6,9 +6,9 @@ pipeline {
             steps {
                 echo 'Ejecutando pruebas bajo sobrecarga...'
             }
-            parallel {
+            parallel(
                 "Job 1": {
-                    sh "sleep 30"
+                    sh "sleep 30"  // Simula tareas paralelas que sobrecargan el sistema
                 },
                 "Job 2": {
                     sh "sleep 30"
@@ -16,7 +16,7 @@ pipeline {
                 "Job 3": {
                     sh "sleep 30"
                 }
-            }
+            )
         }
     }
 
